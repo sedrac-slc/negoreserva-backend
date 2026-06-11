@@ -37,4 +37,4 @@ build/
 .env.prod
 
 /src/main/resources/application-local.yml
-/src/main/resources/certs/
+#/src/main/resources/certs/
