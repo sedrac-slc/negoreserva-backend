@@ -1,0 +1,73 @@
+type OrgUserResponse {
+    uuid: ID!
+    username: String!
+    name: String!
+    email: String!
+    phone: String!
+}
+
+type UpdateDataResponse {
+    id: ID!
+    type: String
+    field: String
+    expiredAt: String
+}
+
+type AddressResponse {
+    uuid: ID!
+    country: String!
+    state: String!
+    city: String!
+    neighborhood: String
+    street: String!
+    number: String
+    zipCode: String
+    complement: String
+    latitude: Float
+    longitude: Float
+}
+
+type OrganizationSocialMediaDetailResponse {
+    uuid: ID!
+    facebook: String
+    instagram: String
+    youtube: String
+    tiKtok: String
+    linkedin: String
+}
+
+type OrgOrganizationProfile {
+    user: OrgUserResponse
+    organization: OrganizationResponse
+    updateDataResponse: [UpdateDataResponse]
+    addresses: [AddressResponse]
+    socialMedia: OrganizationSocialMediaDetailResponse
+}
+
+input OrganizationEditProfileRequest {
+    name: String
+    address: String
+    description: String
+}
+
+input OrganizationSocialMediaEditRequest {
+    facebook: String
+    instagram: String
+    youtube: String
+    tiktok: String
+    linkedin: String
+}
+
+input OrganizationAddressEditRequest {
+    address: String!
+}
+
+extend type Query {
+    orgProfileOrganization: OrgOrganizationProfile
+}
+
+extend type Mutation {
+    orgOrganizationUpdate(request: OrganizationEditProfileRequest): OrganizationResponse
+    orgOrganizationUpdateSocialMedia(request: OrganizationSocialMediaEditRequest!): OrganizationResponse
+    orgOrganizationUpdateAddress(request: OrganizationAddressEditRequest!): OrganizationResponse
+}

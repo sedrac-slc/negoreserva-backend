@@ -1,0 +1,33 @@
+type ProductResponse {
+    uuid: ID!
+    name: String!
+    slug: String!
+    description: String
+    image: String
+    organization: OrganizationResponse
+}
+
+type ProductPaginate {
+    content: [ProductResponse]!
+    empty: Boolean
+    first: Boolean
+    last: Boolean
+    number: Int
+    numberOfElements: Int
+    size: Int
+    totalElements: Int
+    totalPages: Int
+}
+
+input ProductRequest {
+    name: String!
+    description: String!
+    organizationUuid: ID
+}
+
+input ProductFilterQueryParamInput {
+    field: String = "ALL"
+    search: String
+    pageSize: Int = 10
+    pageNumber: Int = 0
+}

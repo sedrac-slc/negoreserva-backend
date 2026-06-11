@@ -1,0 +1,12 @@
+extend type Query {
+    adminPaginateProduct(paginateRequest: PaginateRequest): ProductPaginate!
+    adminPaginateProductFilter(filter: ProductFilterQueryParamInput): ProductPaginate!
+    adminFindByUuidProduct(uuid: ID!): ProductResponse
+    adminFindByNameProduct(name: String!): ProductResponse
+}
+
+extend type Mutation {
+    adminSaveProduct(productRequest: ProductRequest!): ProductResponse
+    adminUpdateProduct(uuid: ID!, productRequest: ProductRequest!): ProductResponse
+    adminDeleteByUuidProduct(uuid: ID!): Boolean
+}

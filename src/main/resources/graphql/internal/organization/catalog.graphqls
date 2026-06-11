@@ -1,0 +1,54 @@
+type OrgCatalogResponse {
+    uuid: ID!
+    name: String!
+    description: String!
+    imgUrl: String
+    slug: String!
+    type: CatalogType!
+}
+
+type OrgCatalogPaginate {
+    content: [OrgCatalogResponse]!
+    empty: Boolean
+    first: Boolean
+    last: Boolean
+    number: Int
+    numberOfElements: Int
+    size: Int
+    totalElements: Int
+    totalPages: Int
+}
+
+input OrgCatalogUpdateRequest {
+    name: String!
+    description: String!
+    type: CatalogType
+}
+
+input CatalogFilterQueryParamInput {
+    field: String = "ALL"
+    search: String
+    pageSize: Int = 10
+    pageNumber: Int = 0
+}
+
+input CatalogProductOrderInput {
+    productUuid: ID!
+    order: Int!
+}
+
+extend type Query {
+    orgPaginateCatalog(paginateRequest: PaginateRequest): OrgCatalogPaginate!
+    orgPaginateCatalogFilter(filter: CatalogFilterQueryParamInput): OrgCatalogPaginate!
+    orgFindByUuidCatalog(uuid: ID!): OrgCatalogResponse
+    orgFindByUuidOrSlugCatalog(uuidOrSlug: String!): OrgCatalogResponse
+    orgPaginateCatalogProducts(uuidOrSlug: String!, paginateRequest: PaginateRequest): OrgProductPaginate!
+    orgPaginateCatalogProductsNotIn(uuidOrSlug: String!, paginateRequest: PaginateRequest): OrgProductPaginate!
+}
+
+extend type Mutation {
+    orgUpdateCatalog(uuid: ID!, catalogRequest: OrgCatalogUpdateRequest!): OrgCatalogResponse
+    orgDeleteByUuidCatalog(uuid: ID!): Boolean
+    orgAddProductsToCatalog(uuidOrSlug: String!, products: [CatalogProductOrderInput!]!): Boolean
+    orgRemoveProductsFromCatalog(uuidOrSlug: String!, productUuids: [ID!]!): Boolean
+}

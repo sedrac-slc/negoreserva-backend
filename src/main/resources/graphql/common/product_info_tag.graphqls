@@ -1,0 +1,27 @@
+type ProductTagInfoResponse {
+    uuid: ID!
+    productUuid: ID
+    icon: String
+    title: String
+    value: String
+    product: ProductResponse
+}
+
+type ProductTagInfoPaginate {
+    content: [ProductTagInfoResponse]!
+    empty: Boolean
+    first: Boolean
+    last: Boolean
+    number: Int
+    numberOfElements: Int
+    size: Int
+    totalElements: Int
+    totalPages: Int
+}
+
+input ProductTagInfoRequest {
+    productUuid: ID
+    icon: String
+    title: String
+    value: String
+}

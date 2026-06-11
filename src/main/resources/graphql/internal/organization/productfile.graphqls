@@ -1,0 +1,7 @@
+type OrgProductFileResponse {
+    uuid: ID!
+    title: String
+    description: String
+    url: String!
+    type: String!
+}

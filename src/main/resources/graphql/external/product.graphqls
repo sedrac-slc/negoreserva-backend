@@ -1,0 +1,23 @@
+type ProductDetailResponse {
+    uuid: String!
+    name: String!
+    description: String!
+    image: String
+    organization: OrganizationResponse
+    files: [ProductFileGetOrgResponse!]!
+    tags: [ProductTagInfoGetOrgResponse!]!
+    prices: [ProductPriceGetOrgResponse!]!
+}
+
+extend type Query {
+    pubProductDetail(uuidOrSlug: String): ProductDetailResponse!
+    pubSearchProduct(q: String!, paginateRequest: PaginateRequest): ProductPaginate!
+    pubSearchProductFilter(filter: ProductSearchFilterParamInput!, paginateRequest: PaginateRequest): ProductPaginate!
+}
+
+input ProductSearchFilterParamInput {
+    q: String
+    priceMin: Float
+    priceMax: Float
+    organizationUuids: [ID!]
+}

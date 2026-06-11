@@ -1,0 +1,52 @@
+type UserResponse {
+    uuid: ID!
+    name: String!
+    email: String!
+    phone: String!
+}
+
+type UserPaginate {
+    content: [UserResponse]!
+    empty: Boolean!
+    first: Boolean!
+    last: Boolean!
+    number: Int!
+    numberOfElements: Int!
+    size: Int!
+    totalElements: Int!
+    totalPages: Int!
+}
+
+input UserCreateRequest {
+    name: String!
+    email: String!
+    phone: String!
+    birthday: String!
+}
+
+input UserUpdateRequest {
+    name: String
+    birthday: String
+}
+
+input UserFilterQueryParamInput {
+    field: String = "ALL"
+    search: String
+    pageSize: Int = 10
+    pageNumber: Int = 0
+}
+
+input UserEditProfileRequest {
+    name: String
+}
+
+input UserResetPasswordCurrentRequest {
+    current: String
+    password: String
+    confirm: String
+}
+
+extend type Mutation {
+    userUpdate(request: UserEditProfileRequest): UserResponse
+    userRestPassword(request: UserResetPasswordCurrentRequest): UserResponse
+}

@@ -1,0 +1,40 @@
+type OrganizationResponse {
+    uuid: ID!
+    name: String!
+    slug: String!
+    email: String!
+    description: String
+    phone: String!
+    address: String
+    logo: String
+    image: String
+    video: String
+    rating: Int
+}
+
+type OrganizationPaginate {
+    content: [OrganizationResponse]!
+    empty: Boolean!
+    first: Boolean!
+    last: Boolean!
+    number: Int!
+    numberOfElements: Int!
+    size: Int!
+    totalElements: Int!
+    totalPages: Int!
+}
+
+input OrganizationRequest {
+    name: String!
+    email: String!
+    description: String
+    phone: String!
+    address: String
+}
+
+input OrganizationFilterQueryParamInput {
+    field: String = "ALL"
+    search: String
+    pageSize: Int = 10
+    pageNumber: Int = 0
+}

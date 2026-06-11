@@ -1,0 +1,46 @@
+type PlanResponse {
+    uuid: ID!
+    name: String!
+    price: Float!
+    description: String
+    type: String!
+}
+
+type PlanPaginate {
+    content: [PlanResponse]!
+    empty: Boolean
+    first: Boolean
+    last: Boolean
+    number: Int
+    numberOfElements: Int
+    size: Int
+    totalElements: Int
+    totalPages: Int
+}
+
+input PlanRequest {
+    name: String!
+    price: Float!
+    description: String!
+    type: String!
+}
+
+input PlanFilterQueryParamInput {
+    field: String = "ALL"
+    search: String
+    pageSize: Int = 10
+    pageNumber: Int = 0
+}
+
+extend type Query {
+    adminPaginatePlan(paginateRequest: PaginateRequest): PlanPaginate!
+    adminPaginatePlanFilter(filter: PlanFilterQueryParamInput): PlanPaginate!
+    adminFindByUuidPlan(uuid: ID!): PlanResponse
+    adminFindByNamePlan(name: String!): PlanResponse
+}
+
+extend type Mutation {
+    adminSavePlan(planRequest: PlanRequest!): PlanResponse
+    adminUpdatePlan(uuid: ID!, planRequest: PlanRequest!): PlanResponse
+    adminDeleteByUuidPlan(uuid: ID!): Boolean
+}

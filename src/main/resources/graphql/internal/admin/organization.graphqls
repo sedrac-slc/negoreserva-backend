@@ -1,0 +1,13 @@
+extend type Query {
+    adminPaginateOrganization(paginateRequest: PaginateRequest): OrganizationPaginate!
+    adminPaginateOrganizationFilter(filter: OrganizationFilterQueryParamInput): OrganizationPaginate!
+    adminFindByUuidOrganization(uuid: ID!): OrganizationResponse
+    adminFindByNameOrganization(name: String!): OrganizationResponse
+    adminFindByPhoneOrganization(phone: String!): OrganizationResponse
+}
+
+extend type Mutation {
+    adminSaveOrganization(organizationRequest: OrganizationRequest!): OrganizationResponse
+    adminUpdateOrganization(uuid: ID!, organizationRequest: OrganizationRequest!): OrganizationResponse
+    adminDeleteByUuidOrganization(uuid: ID!): Boolean
+}

@@ -1,0 +1,63 @@
+package com.negoreserva.internal.admin.feature.organization.api.graphql;
+
+import com.negoreserva.common.feature.concrete.organization.dto.response.OrganizationPaginate;
+import com.negoreserva.internal.admin.feature.organization.dto.queryparam.OrganizationFilterQueryParam;
+import com.negoreserva.internal.admin.feature.organization.service.AdminOrganizationService;
+import com.negoreserva.common.feature.concrete.organization.dto.request.OrganizationRequest;
+import com.negoreserva.common.feature.concrete.organization.dto.response.OrganizationResponse;
+import com.negoreserva.common.feature.core.dto.request.PaginateRequest;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.stereotype.Controller;
+
+import java.util.UUID;
+
+@Controller
+@RequiredArgsConstructor
+public class AdminOrganizationResolver {
+    private final AdminOrganizationService service;
+
+    @QueryMapping
+    public OrganizationResponse adminFindByUuidOrganization(@Argument String uuid) {
+        return service.findByUuid(UUID.fromString(uuid)).toResponse();
+    }
+
+    @QueryMapping
+    public OrganizationResponse adminFindByNameOrganization(@Argument String name) {
+        return service.findByName(name).toResponse();
+    }
+
+    @QueryMapping
+    public OrganizationResponse adminFindByPhoneOrganization(@Argument String phone) {
+        return service.findByPhone(phone).toResponse();
+    }
+
+    @QueryMapping
+    public OrganizationPaginate adminPaginateOrganization(@Argument PaginateRequest paginateRequest) {
+        return service.paginate(paginateRequest);
+    }
+
+    @QueryMapping
+    public OrganizationPaginate adminPaginateOrganizationFilter(@Argument OrganizationFilterQueryParam filter) {
+        return service.paginate(filter);
+    }
+
+    @MutationMapping
+    public OrganizationResponse adminSaveOrganization(@Argument @Valid OrganizationRequest organizationRequest) {
+        return service.save(organizationRequest.toModel()).toResponse();
+    }
+
+    @MutationMapping
+    public OrganizationResponse adminUpdateOrganization(@Argument String uuid, @Argument @Valid OrganizationRequest organizationRequest) {
+        return service.update(UUID.fromString(uuid), organizationRequest.toModel()).toResponse();
+    }
+
+    @MutationMapping
+    public boolean adminDeleteByUuidOrganization(@Argument String uuid) {
+        service.deleteByUuid(UUID.fromString(uuid));
+        return true;
+    }
+}

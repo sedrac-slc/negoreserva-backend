@@ -1,0 +1,53 @@
+enum PaymentStatus {
+    PENDING
+    PAID
+    CANCELED
+    RECEIPT_VALID
+}
+
+enum PaymentMethod {
+    NONE
+    RECEIPT
+    MULTCAIXA_EXPRESS
+    REFERENCIA
+}
+
+type TransactionResponse {
+    uuid: ID!
+    code: String!
+    product: ProductResponse!
+    user: UserResponse!
+    amount: Int!
+    price: Float!
+}
+
+type PaymentResponse {
+    uuid: ID!
+    transaction: TransactionResponse!
+    status: PaymentStatus!
+    type: PaymentMethod!
+}
+
+type PaymentPaginate {
+    content: [PaymentResponse]!
+    empty: Boolean
+    first: Boolean
+    last: Boolean
+    number: Int
+    numberOfElements: Int
+    size: Int
+    totalElements: Int
+    totalPages: Int
+}
+
+input PaymentRequest {
+    price: Float!
+    method: String!
+}
+
+input PaymentFilterQueryParamInput {
+    field: String = "ALL"
+    search: String
+    pageSize: Int = 10
+    pageNumber: Int = 0
+}

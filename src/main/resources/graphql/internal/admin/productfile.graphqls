@@ -1,0 +1,10 @@
+extend type Query {
+    adminPaginateProductFile(paginateRequest: PaginateRequest): ProductFilePaginate!
+    adminFindByUuidProductFile(uuid: ID!): ProductFileResponse
+}
+
+extend type Mutation {
+    adminSaveProductFile(productFileRequest: ProductFileRequest!): ProductFileResponse
+    adminUpdateProductFile(uuid: ID!, productFileRequest: ProductFileRequest!): ProductFileResponse
+    adminDeleteByUuidProductFile(uuid: ID!): Boolean
+}

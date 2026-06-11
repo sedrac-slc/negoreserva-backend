@@ -1,0 +1,19 @@
+type OrganizationDataChangeRequestResponse {
+    id: ID!
+    organizationId: ID
+    input: String
+    code: String
+    type: String
+    expiredAt: String
+}
+
+extend type Mutation {
+    orgSendMessageEmail(request: SendEmailRequest!): OrganizationDataChangeRequestResponse
+    orgSendMessagePhone(request: SendPhoneRequest!): OrganizationDataChangeRequestResponse
+    orgUpdateDataReset(request: UpdateDataRequest!): Boolean
+}
+
+extend type Query {
+    orgUpdateDataFindAll: [OrganizationDataChangeRequestResponse]
+    orgUpdateDataFindById(id: ID!): OrganizationDataChangeRequestResponse
+}

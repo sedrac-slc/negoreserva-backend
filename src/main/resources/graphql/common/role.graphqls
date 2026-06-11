@@ -1,0 +1,33 @@
+type RoleResponse {
+    uuid: ID!
+    code: String!
+    name: String!
+    description: String
+    roleType: String
+}
+
+type RolePaginate {
+    content: [RoleResponse]!
+    empty: Boolean
+    first: Boolean
+    last: Boolean
+    number: Int
+    numberOfElements: Int
+    size: Int
+    totalElements: Int
+    totalPages: Int
+}
+
+input RoleRequest {
+    code: String!
+    name: String!
+    description: String
+    roleType: String
+}
+
+input RoleFilterQueryParamInput {
+    field: String = "ALL"
+    search: String
+    pageSize: Int = 10
+    pageNumber: Int = 0
+}

@@ -1,0 +1,98 @@
+package com.negoreserva.common.feature.general.register.service;
+
+import com.negoreserva.common.component.CryptoFacade;
+import com.negoreserva.common.component.TokenFacade;
+import com.negoreserva.common.feature.core.enums.OtpVerificationType;
+import com.negoreserva.common.feature.general.sms.model.SmsCreateAccountOtpVerification;
+import com.negoreserva.common.feature.general.sms.service.SmsCreateAccountOtpVerificationDispatcher;
+import com.negoreserva.common.feature.concrete.user.enums.UserType;
+import com.negoreserva.common.feature.pivot.user_organization.enums.UserOrganizationType;
+import com.negoreserva.common.feature.concrete.user_otp_verification.service.UserOtpVerificationFacade;
+import com.negoreserva.common.feature.general.register.dto.request.CreateAccountOrganizationRequest;
+import com.negoreserva.common.feature.pivot.user_organization.service.UserOrganizationService;
+import com.negoreserva.common.feature.concrete.user_otp_verification.model.UserOtpVerification;
+import com.negoreserva.common.feature.general.register.dto.response.CreateAccountResponse;
+import com.negoreserva.common.feature.pivot.user_organization.model.UserOrganization;
+import com.negoreserva.common.feature.concrete.organization.service.OrganizationService;
+import com.negoreserva.common.feature.general.register.util.ExpiredGenerator;
+import com.negoreserva.common.feature.general.register.util.OtpGenerator;
+import com.negoreserva.common.feature.concrete.user.service.UserService;
+import com.negoreserva.common.feature.concrete.category.repository.CategoryRepo;
+import com.negoreserva.common.feature.concrete.category.model.Category;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+import java.util.UUID;
+
+@Service
+@RequiredArgsConstructor
+public class RegisterOrganizationFacade {
+    private final SmsCreateAccountOtpVerificationDispatcher smsCreateAccountOtpVerificationDispatcher;
+    private final UserOtpVerificationFacade userOtpVerificationFacade;
+    private final UserOrganizationService userOrganizationService;
+    private final OrganizationService organizationService;
+    private final CryptoFacade cryptoFacade;
+    private final TokenFacade tokenFacade;
+    private final UserService userService;
+    private final CategoryRepo categoryRepo;
+
+    @Transactional
+    public CreateAccountResponse createAccount(CreateAccountOrganizationRequest request, HttpServletResponse response) {
+        var organization = organizationService.save(request.toOrganizationModel());
+
+        var user = userService.save(request
+                .toUserModel()
+                .toBuilder()
+                .type(UserType.ORGANIZATION)
+                .build()
+        );
+
+        userOrganizationService.save(UserOrganization.builder()
+                .type(UserOrganizationType.CREATED)
+                .organization(organization)
+                .active(true)
+                .user(user)
+                .build()
+        );
+
+        var categoryIds = request.categories().stream()
+                .map(UUID::fromString)
+                .toList();
+        
+        var categories = categoryRepo.findByUuidIn(categoryIds);
+        organization.setCategories(categories);
+        organizationService.save(organization);
+
+        var expiredAt = ExpiredGenerator.otpExpired3Minutes();
+        var tokenResponse = tokenFacade.generateToken(user, response);
+        var otp = OtpGenerator.generate();
+
+        var userOtpVerification = userOtpVerificationFacade.save(UserOtpVerification.builder()
+                .type(OtpVerificationType.CREATE_ACCOUNT)
+                .expiredAt(expiredAt)                                         
+                .code(otp)
+                .user(user)
+                .build()
+        );
+
+        var otpToken = cryptoFacade.encrypt(String.valueOf(userOtpVerification.getId()));
+
+        smsCreateAccountOtpVerificationDispatcher.dispatch(SmsCreateAccountOtpVerification.builder()
+                .recept(user.getEmail())
+                .otp(otp)
+                .build());
+
+        return new CreateAccountResponse(
+                otpToken,
+                user.getUuid().toString(),
+                expiredAt,
+                tokenResponse.token(),
+                tokenResponse.expiredAt(),
+                true
+        );
+    }
+
+}

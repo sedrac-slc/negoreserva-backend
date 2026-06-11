@@ -1,0 +1,4 @@
+extend type Query {
+    pubPaginateCategory(paginateRequest: PaginateRequest): CategoryPaginate!
+    pubPaginateCategoryFilter(filter: CategoryFilterQueryParamInput): CategoryPaginate!
+}

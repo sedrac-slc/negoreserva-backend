@@ -1,0 +1,52 @@
+type CreateAccountResponse {
+    otpId: String
+    userId: String
+    token: String
+    otpExpiredAt: String
+    status: Boolean!
+    expiredAt: String
+}
+
+type UserAuthResponse {
+    token: String
+    name: String
+    email: String
+    type: String
+    status: String
+    logo: Boolean
+    expiredAt: String
+}
+
+input ConfirmUserOtpVerificationInput {
+    otpId: String
+    code: String
+}
+
+input ResendUserOtpVerificationInput {
+    otpId: String
+    userId: String
+}
+
+input CreateAccountOrganizationInput {
+    name: String!
+    email: String!
+    phone: String!
+    password: String!
+    confirm: String!
+    categories: [String!]!
+}
+
+input CreateAccountClientInput {
+    name: String!
+    email: String!
+    phone: String!
+    password: String!
+    confirm: String!
+}
+
+extend type Mutation {
+    pubCreateAccountOrganization(request: CreateAccountOrganizationInput!): CreateAccountResponse
+    pubCreateAccountClient(request: CreateAccountClientInput!): CreateAccountResponse
+    pubResendOtp(request: ResendUserOtpVerificationInput!): CreateAccountResponse
+    pubConfirmOtp(request: ConfirmUserOtpVerificationInput!): UserAuthResponse
+}

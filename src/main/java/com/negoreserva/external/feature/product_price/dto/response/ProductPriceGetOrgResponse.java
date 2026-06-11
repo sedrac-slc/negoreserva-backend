@@ -1,0 +1,29 @@
+package com.negoreserva.external.feature.product_price.dto.response;
+
+import com.negoreserva.common.feature.concrete.product_price.enums.ProductPriceType;
+import com.negoreserva.common.feature.concrete.product_price.model.ProductPrice;
+
+import java.math.BigDecimal;
+import java.util.UUID;
+
+public record ProductPriceGetOrgResponse(
+        UUID uuid,
+        ProductPriceType type,
+        BigDecimal value,
+        Integer order,
+        Boolean isPrimary,
+        Integer unit
+) {
+
+    public static ProductPriceGetOrgResponse of(ProductPrice productPrice) {
+        return new ProductPriceGetOrgResponse(
+                productPrice.getUuid(),
+                productPrice.getType(),
+                productPrice.getValue(),
+                productPrice.getOrder(),
+                productPrice.getIsPrimary(),
+                productPrice.getUnit()
+        );
+    }
+
+}

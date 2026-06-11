@@ -1,0 +1,12 @@
+input PaginateRequest {
+    pageNumber: Int
+    pageSize: Int
+}
+
+type Query {
+    _empty: String
+}
+
+type Mutation {
+    _empty: String
+}

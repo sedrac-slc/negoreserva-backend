@@ -1,0 +1,9 @@
+services:
+  negoreserva:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: negoreserva-api-prod
+    ports:
+      - "8082:8080"
+    restart: always

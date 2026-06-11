@@ -1,0 +1,40 @@
+type PaymentFileReceiptResponse {
+    uuid: ID!
+    fileUrl: String!
+    type: String
+    size: Float
+    createdAt: String
+}
+
+type OrgPaymentResponse {
+    uuid: ID!
+    transaction: TransactionResponse!
+    status: PaymentStatus!
+    type: PaymentMethod!
+    paymentFileReceipt: PaymentFileReceiptResponse
+}
+
+type OrgPaymentPaginate {
+    content: [OrgPaymentResponse]!
+    empty: Boolean
+    first: Boolean
+    last: Boolean
+    number: Int
+    numberOfElements: Int
+    size: Int
+    totalElements: Int
+    totalPages: Int
+}
+
+extend type Query {
+    orgPaginatePayment(paginateRequest: PaginateRequest): OrgPaymentPaginate!
+    orgPaginatePaymentFilter(filter: PaymentFilterQueryParamInput): OrgPaymentPaginate!
+    orgFindByUuidPayment(uuid: ID!): OrgPaymentResponse
+}
+
+extend type Mutation {
+    orgSavePayment(paymentRequest: PaymentRequest!): OrgPaymentResponse
+    orgUpdatePayment(uuid: ID!, paymentRequest: PaymentRequest!): OrgPaymentResponse
+    orgValidatePaymentReceipt(uuid: ID!): OrgPaymentResponse
+    orgDeleteByUuidPayment(uuid: ID!): Boolean
+}

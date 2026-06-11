@@ -1,0 +1,10 @@
+extend type Query {
+    adminPaginateProductPrice(paginateRequest: PaginateRequest): ProductPricePaginate!
+    adminFindByUuidProductPrice(uuid: ID!): ProductPriceResponse
+}
+
+extend type Mutation {
+    adminSaveProductPrice(productPriceRequest: ProductPriceRequest!): ProductPriceResponse
+    adminUpdateProductPrice(uuid: ID!, productPriceRequest: ProductPriceRequest!): ProductPriceResponse
+    adminDeleteByUuidProductPrice(uuid: ID!): Boolean
+}

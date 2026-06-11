@@ -1,0 +1,31 @@
+type ProductPriceResponse {
+    uuid: ID!
+    productUuid: ID
+    type: String!
+    value: Float!
+    order: Int
+    isPrimary: Boolean
+    unit: Int
+    product: ProductResponse
+}
+
+type ProductPricePaginate {
+    content: [ProductPriceResponse]!
+    empty: Boolean
+    first: Boolean
+    last: Boolean
+    number: Int
+    numberOfElements: Int
+    size: Int
+    totalElements: Int
+    totalPages: Int
+}
+
+input ProductPriceRequest {
+    productUuid: ID
+    type: String!
+    value: Float!
+    order: Int
+    isPrimary: Boolean
+    unit: Int
+}

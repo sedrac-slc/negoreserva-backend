@@ -1,0 +1,12 @@
+extend type Query {
+    adminPaginateCategory(paginateRequest: PaginateRequest): CategoryPaginate!
+    adminPaginateCategoryFilter(filter: CategoryFilterQueryParamInput): CategoryPaginate!
+    adminFindByUuidCategory(uuid: ID!): CategoryResponse
+    adminFindByNameCategory(name: ID!): CategoryResponse
+}
+
+extend type Mutation {
+    adminSaveCategory(categoryRequest: CategoryRequest!): CategoryResponse
+    adminUpdateCategory(uuid: ID!, categoryRequest: CategoryRequest!): CategoryResponse
+    adminDeleteByUuidCategory(uuid: ID!): Boolean
+}

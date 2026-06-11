@@ -1,0 +1,30 @@
+type ProductFileResponse {
+    uuid: ID!
+    title: String
+    description: String
+    productUuid: ID
+    url: String!
+    type: String!
+    isPrimary: Boolean
+    product: ProductResponse
+}
+
+type ProductFilePaginate {
+    content: [ProductFileResponse]!
+    empty: Boolean
+    first: Boolean
+    last: Boolean
+    number: Int
+    numberOfElements: Int
+    size: Int
+    totalElements: Int
+    totalPages: Int
+}
+
+input ProductFileRequest {
+    productUuid: ID
+    title: String
+    description: String
+    url: String!
+    type: String!
+}

@@ -1,0 +1,10 @@
+.git
+.idea
+.settings
+.vscode
+target
+build
+.env
+.env.*
+docker-compose*.yml
+HELP.md

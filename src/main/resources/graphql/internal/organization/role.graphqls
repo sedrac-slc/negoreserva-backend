@@ -1,0 +1,34 @@
+type OrgRoleResponse {
+    uuid: ID!
+    name: String!
+    description: String
+}
+
+type OrgRolePaginate {
+    content: [OrgRoleResponse]!
+    empty: Boolean!
+    first: Boolean!
+    last: Boolean!
+    number: Int!
+    numberOfElements: Int!
+    size: Int!
+    totalElements: Int!
+    totalPages: Int!
+}
+
+input OrgRoleRequest {
+    name: String!
+    description: String
+    permissionUuids: [ID!]
+}
+
+extend type Query {
+    orgPaginateRole(paginateRequest: PaginateRequest): OrgRolePaginate!
+    orgFindByUuidRole(uuid: ID!): OrgRoleResponse
+}
+
+extend type Mutation {
+    orgSaveRole(roleRequest: OrgRoleRequest!): OrgRoleResponse
+    orgUpdateRole(uuid: ID!, roleRequest: OrgRoleRequest!): OrgRoleResponse
+    orgDeleteByUuidRole(uuid: ID!): Boolean
+}

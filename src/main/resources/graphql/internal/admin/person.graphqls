@@ -1,0 +1,53 @@
+type PersonResponse {
+    uuid: ID!
+    name: String!
+    email: String!
+    phone: String!
+    birthday: String!
+}
+
+type PersonPaginate {
+    content: [PersonResponse]!
+    empty: Boolean!
+    first: Boolean!
+    last: Boolean!
+    number: Int!
+    numberOfElements: Int!
+    size: Int!
+    totalElements: Int!
+    totalPages: Int!
+}
+
+input PersonCreateRequest {
+    name: String!
+    email: String!
+    phone: String!
+    password: String!
+    birthday: String!
+}
+
+input PersonUpdateRequest {
+    name: String
+    birthday: String
+}
+
+input PersonFilterQueryParamInput {
+    field: String = "ALL"
+    search: String
+    pageSize: Int = 10
+    pageNumber: Int = 0
+}
+
+extend type Query {
+    adminPaginatePerson(paginateRequest: PaginateRequest): PersonPaginate!
+    adminPaginatePersonFilter(filter: PersonFilterQueryParamInput): PersonPaginate!
+    adminFindByUuidPerson(uuid: ID!): PersonResponse
+    adminFindByEmailPerson(email: String!): PersonResponse
+    adminFindByPhonePerson(phone: String!): PersonResponse
+}
+
+extend type Mutation {
+    adminSavePerson(personCreateRequest: PersonCreateRequest!): PersonResponse
+    adminUpdatePerson(uuid: ID!, personUpdateRequest: PersonUpdateRequest!): PersonResponse
+    adminDeleteByUuidPerson(uuid: ID!): Boolean
+}

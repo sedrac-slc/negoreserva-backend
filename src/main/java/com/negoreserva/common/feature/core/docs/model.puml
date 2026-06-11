@@ -1,0 +1,24 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package "com.negoreserva.common.model" {
+    class CommonModel <<MappedSuperclass>> {
+        - id: Long <<Id, GeneratedValue>>
+        - uuid: UUID <<Column>>
+        - createdAt: LocalDateTime <<CreationTimestamp>>
+        - updatedAt: LocalDateTime <<UpdateTimestamp>>
+        --
+        + onCreate()
+    }
+
+    class ConcreteModel <<MappedSuperclass>> {
+        - createdBy: UUID
+        - updatedBy: UUID
+        - deletedBy: UUID
+        - deletedAt: LocalDateTime
+    }
+
+    CommonModel <|-- ConcreteModel
+}
+
+@enduml

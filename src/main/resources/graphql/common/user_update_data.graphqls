@@ -1,0 +1,32 @@
+type UserUpdateDataResponse {
+    id: ID!
+    userId: ID
+    input: String
+    code: String
+    type: String
+    expiredAt: String
+}
+
+input SendEmailRequest {
+    input: String!
+}
+
+input SendPhoneRequest {
+    input: String!
+}
+
+input UpdateDataRequest {
+    id: String!
+    otp: String!
+}
+
+extend type Mutation {
+    userSendMessageEmail(request: SendEmailRequest!): UserUpdateDataResponse
+    userSendMessagePhone(request: SendPhoneRequest!): UserUpdateDataResponse
+    userUpdateDataReset(request: UpdateDataRequest!): Boolean
+}
+
+extend type Query {
+    userUpdateDataFindAll: [UserUpdateDataResponse]
+    userUpdateDataFindById(id: ID!): UserUpdateDataResponse
+}

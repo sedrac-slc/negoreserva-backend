@@ -1,0 +1,31 @@
+type OrganizationSocialMediaResponse {
+    uuid: ID!
+    organizationUuid: ID
+    facebook: String
+    instagram: String
+    youtube: String
+    tiktok: String
+    linkedin: String
+    organization: OrganizationResponse
+}
+
+type OrganizationSocialMediaPaginate {
+    content: [OrganizationSocialMediaResponse]!
+    empty: Boolean
+    first: Boolean
+    last: Boolean
+    number: Int
+    numberOfElements: Int
+    size: Int
+    totalElements: Int
+    totalPages: Int
+}
+
+input OrganizationSocialMediaRequest {
+    organizationUuid: ID
+    facebook: String
+    instagram: String
+    youtube: String
+    titok: String
+    linkedin: String
+}

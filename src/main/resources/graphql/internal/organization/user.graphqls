@@ -1,0 +1,44 @@
+type OrgPersonResponse {
+    uuid: ID!
+    name: String!
+    email: String!
+    phone: String!
+    birthday: String
+}
+
+type OrgUserPaginate {
+    content: [OrgPersonResponse]!
+    empty: Boolean!
+    first: Boolean!
+    last: Boolean!
+    number: Int!
+    numberOfElements: Int!
+    size: Int!
+    totalElements: Int!
+    totalPages: Int!
+}
+
+input OrgUserCreateRequest {
+    name: String!
+    email: String!
+    phone: String!
+    password: String
+    birthday: String
+    roleUuid: ID
+}
+
+input OrgUserUpdateRequest {
+    name: String
+    birthday: String
+}
+
+extend type Query {
+    orgPaginatePerson(paginateRequest: PaginateRequest): OrgUserPaginate!
+    orgFindByUuidPerson(uuid: ID!): OrgPersonResponse
+}
+
+extend type Mutation {
+    orgSavePerson(personCreateRequest: OrgUserCreateRequest!): OrgPersonResponse
+    orgUpdatePerson(uuid: ID!, personUpdateRequest: OrgUserUpdateRequest!): OrgPersonResponse
+    orgDeleteByUuidPerson(uuid: ID!): Boolean
+}

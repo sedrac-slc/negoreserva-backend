@@ -1,0 +1,14 @@
+spring:
+  config:
+    import: optional:file:.env.prod[.properties]
+  docker:
+    compose:
+      file: docker-compose.prod.yml
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false

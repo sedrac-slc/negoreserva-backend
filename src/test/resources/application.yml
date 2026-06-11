@@ -1,0 +1,50 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;NON_KEYWORDS=VALUE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+
+  main:
+    allow-bean-definition-overriding: true
+
+  graphql:
+    http:
+      enabled: true
+
+rsa:
+  private-key: classpath:certs/private.pem
+  public-key: classpath:certs/public.pem
+
+crypto:
+  secret-key: test-secret-key
+  salt: a1b2c3d4e5f60011
+
+ombala:
+  api:
+    base-url: https://example.test/ombala
+    token: test-token
+    name: Test
+
+mailjet:
+  api:
+    base-url: https://example.test/mailjet
+    public-key: test-public-key
+    private-key: test-private-key
+  sender:
+    name: Test
+    email: test@example.test
+
+cloudinary:
+  cloud-name: test-cloud
+  api-key: test-api-key
+  api-secret: test-api-secret

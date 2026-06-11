@@ -1,0 +1,2 @@
+include:
+  - ${DOCKER_COMPOSE_PROFILE_FILE:-docker-compose.dev.yml}
