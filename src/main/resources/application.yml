@@ -31,8 +31,8 @@ spring-doc:
   swagger-ui:
     enabled: true
 rsa:
-  private-key: classpath:certs/private.pem
-  public-key: classpath:certs/public.pem
+  private-key: classpath:certs/private/private.pem
+  public-key: classpath:certs/public/public.pem
 crypto:
   secret-key: classpath:certs/secret.pem
   salt: a1b2c3d4e5f60011
